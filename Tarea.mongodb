@@ -1,0 +1,46 @@
+//Tabla empleados validada
+
+db.createCollection('empleados', {
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            title: 'Validación de objeto de empleados',
+            required: ['id_empleado', 'nombre_empleado', 'apellido_empleado', 'puesto'],
+            properties: {
+                id_empleado: {
+                    bsonType: 'int',
+                    description: 'Identificador único del empleado'
+                },
+                nombre_empleado: {
+                    bsonType: 'string',
+                    description: 'Nombre del empleado',
+                    minLength: 1,
+                    maxLength: 100
+                },
+                apellido_empleado: {
+                    bsonType: 'string',
+                    description: 'Apellido del empleado',
+                    minLength: 1,
+                    maxLength: 100
+                },
+                telefono: {
+                    bsonType: 'string',
+                    description: 'Teléfono del empleado',
+                    maxLength: 15
+                },
+                direccion: {
+                    bsonType: 'string',
+                    description: 'Dirección del empleado',
+                    maxLength: 255,
+                    pattern: "^[A-Za-z0-9 ,.#-]*$"
+                },
+                puesto: {
+                    bsonType: 'string',
+                    description: 'Puesto del empleado',
+                    enum: ['Gerente', 'Cliente', 'Empleado', 'Proveedor'],
+                    maxLength: 100
+                }
+            }
+        }
+    }
+});
