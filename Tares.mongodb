@@ -1,0 +1,62 @@
+// Usar la base de datos 
+use("Tareas")
+
+//Creae el esquema de ususarios
+db.createCollection('UsuariosT',{
+    validator:{ //Validador
+        $jsonSchema:{ 
+            bsonType: 'object',//Indicamos que se refiere a un objeto
+            title:'Validacion de un objeto de usuarios ',
+            required:['_id','nombre','apellido','email','telefono_cliente','direccion_cliente'],//Son los atributos requeridos(los que tienen que estar si o si)
+            additionalProperties:false,
+            properties:{
+                _id:{
+                    bsonType:'objectId',
+                    title:'ID del usuario',
+                    
+                },
+               nombre:{
+                bsonType:'string',
+                description:'Nombre del usuario',
+                maxlength:50,
+                minlength:5,
+               
+               },
+               apellido:{
+                bsonType:'string',
+                description:'Apellido del usuario',
+                maxlength:50,
+                minlength:5,
+              
+               },
+               email:{
+                bsonType:'string' ,
+                description:'Correo del usuario',
+                pattern:"^[A-Za-z\\d.-]{1,}[@][A-Za-z\\d.-]{1,}[].[A-Za-z\\d.-]{1,}$",
+             
+               },
+               telefono_cliente: {
+                bsonType:'array',
+                minItems:1,
+                maxItems:3,
+                items:{bsonType:'string'},
+                uniqueItems:true
+            },
+              direccion_cliente: {
+                bsonType: 'string',
+                
+              
+              }
+            }
+        }
+    }
+
+
+})
+
+//Crear indice por el compo email
+//No va permitir emails duplicados 
+db.UsuariosT.createIndex(
+    {email:1},//indicamos que sera la llave del indice 
+    {unique:true}//No acepta valores duplicados
+)
