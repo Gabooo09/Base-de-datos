@@ -1,0 +1,5 @@
+//Usar la base de datos 
+use("Tareas")
+
+//Eliminar la coleccion
+db.UsuariosT.drop()
